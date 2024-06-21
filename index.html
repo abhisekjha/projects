@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container my-4">
+        <h1 class="text-center">Project List</h1>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="projectTable">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Serial No</th>
+                        <th>Name of Project</th>
+                        <th>Date Started</th>
+                        <th>Completion Date</th>
+                        <th>GitHub Link</th>
+                        <th>Website Link</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JS to load CSV -->
+    <script>
+        fetch('path/to/your/projects.csv')
+            .then(response => response.text())
+            .then(data => {
+                const rows = data.split('\n').slice(1); // Skip the header row
+                const table = document.getElementById('projectTable').getElementsByTagName('tbody')[0];
+                rows.forEach(row => {
+                    const cols = row.split(',');
+                    const newRow = table.insertRow();
+                    cols.forEach((col, index) => {
+                        const cell = newRow.insertCell();
+                        if (index === 4 || index === 5) {
+                            const link = document.createElement('a');
+                            link.href = col.trim();
+                            link.textContent = 'Link';
+                            link.target = '_blank';
+                            cell.appendChild(link);
+                        } else {
+                            cell.textContent = col.trim();
+                        }
+                    });
+                });
+            });
+    </script>
+</body>
+</html>
