@@ -30,7 +30,7 @@
     <!-- SheetJS (xlsx.js) from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
-    <!-- Custom Script -->
+    <!-- Custom Script for sheet -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             fetch('https://raw.githubusercontent.com/abhisekjha/projects/main/projects.xlsx')
@@ -48,15 +48,15 @@
 
         function populateTable(data) {
             const tableBody = document.querySelector('#projectTable tbody');
-            tableBody.innerHTML = ''; // Clear existing content
+            tableBody.innerHTML = ''; 
 
-            data.slice(1).forEach(row => { // Skip the header row
+            data.slice(1).forEach(row => { 
                 const newRow = document.createElement('tr');
                 
                 row.forEach((cell, index) => {
                     const newCell = document.createElement('td');
                     
-                    if (index === 4 || index === 5) { // GitHub Link or Website Link
+                    if (index === 4 || index === 5) {
                         const link = document.createElement('a');
                         link.href = cell;
                         link.textContent = cell;
