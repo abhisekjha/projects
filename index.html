@@ -6,6 +6,14 @@
     <title>Project List from Excel</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .logo {
+            width: 16px; /* Adjust width as needed */
+            height: 16px; /* Adjust height as needed */
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -18,8 +26,8 @@
                         <th>Name of Project</th>
                         <th>Date Started</th>
                         <th>Completion Date</th>
-                        <th>GitHub Link</th>
-                        <th>Website Link</th>
+                        <th>GitHub</th>
+                        <th>Website</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -61,6 +69,7 @@
         function populateTable(data) {
             const tableBody = document.querySelector('#projectTable tbody');
             tableBody.innerHTML = ''; // Clear existing content
+
     
             // Iterate over each row in the reversed data and populate the table
             data.forEach(row => {
@@ -71,11 +80,17 @@
                     const newCell = document.createElement('td');
     
                     // Check if the cell corresponds to GitHub Link or Website Link columns
-                    if (index === 4 || index === 5) {
+                    if (index === 4) { // GitHub Link
                         const link = document.createElement('a');
                         link.href = cell;
-                        link.textContent = cell;
                         link.target = '_blank';
+                        link.innerHTML = `<img src="images/github.png" class="logo" alt="GitHub Logo">`;
+                        newCell.appendChild(link);
+                    } else if (index === 5) { // Website Link
+                        const link = document.createElement('a');
+                        link.href = cell;
+                        link.target = '_blank';
+                        link.innerHTML = `<img src="images/website.png" class="logo" alt="Website Logo">`;
                         newCell.appendChild(link);
                     } else {
                         newCell.textContent = cell;
@@ -87,6 +102,7 @@
                 tableBody.appendChild(newRow);
             });
         }
+        
     </script>
     
 </body>
