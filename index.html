@@ -33,29 +33,44 @@
     <!-- Custom Script for sheet -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Fetch the Excel file from the specified URL
             fetch('https://raw.githubusercontent.com/abhisekjha/projects/main/projects.xlsx')
-                .then(response => response.arrayBuffer())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load Excel file');
+                    }
+                    return response.arrayBuffer();
+                })
                 .then(data => {
+                    // Read the Excel file using SheetJS
                     const workbook = XLSX.read(data, { type: 'array' });
                     const sheetName = workbook.SheetNames[0];
                     const worksheet = workbook.Sheets[sheetName];
+                    // Convert the sheet to JSON format
                     const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-                    populateTable(jsonData);
+                    
+                    // Reverse the data (excluding the header row)
+                    const reverseData = jsonData.slice(1).reverse();
+    
+                    // Populate the table with the reversed data
+                    populateTable(reverseData);
                 })
                 .catch(error => console.error('Error loading the Excel file:', error));
         });
-
+    
         function populateTable(data) {
             const tableBody = document.querySelector('#projectTable tbody');
-            tableBody.innerHTML = ''; 
-
-            data.slice(1).forEach(row => { 
+            tableBody.innerHTML = ''; // Clear existing content
+    
+            // Iterate over each row in the reversed data and populate the table
+            data.forEach(row => {
                 const newRow = document.createElement('tr');
                 
+                // Iterate over each cell in the row
                 row.forEach((cell, index) => {
                     const newCell = document.createElement('td');
-                    
+    
+                    // Check if the cell corresponds to GitHub Link or Website Link columns
                     if (index === 4 || index === 5) {
                         const link = document.createElement('a');
                         link.href = cell;
@@ -65,13 +80,14 @@
                     } else {
                         newCell.textContent = cell;
                     }
-
+    
                     newRow.appendChild(newCell);
                 });
-
+    
                 tableBody.appendChild(newRow);
             });
         }
     </script>
+    
 </body>
 </html>
