@@ -1,2 +1,9 @@
 #ignore sample folder
 sample/
+
+#ignore all files in the folder
+sample/*
+
+#ignore all files in the folder and the folder itself
+sample/
+
